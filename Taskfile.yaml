@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  inject:
+    vars:
+      library_path: "bin/libcss_dlc.so"
+      proc_name: "test_binary"
+      installed_lib_name: "libcss_dlc.so.0"
+    cmds:
+      - sudo cp {{.library_path}} /usr/lib/{{.installed_lib_name}}
+      - |
+        gdb -n -q -batch \
+        -ex "set debuginfod enabled off" \
+        -ex "set auto-load safe-path /usr/lib/" \
+        -ex "attach $(pidof {{.proc_name}})" \
+        -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+        -ex "call \$dlopen(\"/usr/lib/{{.installed_lib_name}}\", 1)" \
+        -ex "detach" \
+        -ex "quit" 2> /dev/null
+  build:
+    cmds:
