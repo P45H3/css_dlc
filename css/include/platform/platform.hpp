@@ -12,7 +12,8 @@ enum e_platforms {
 
 class c_platform {
 public:
-    c_platform(e_platforms platform_type);
+    explicit c_platform(e_platforms platform_type);
+
 };
 
 

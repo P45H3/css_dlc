@@ -8,6 +8,7 @@ target_include_directories(css_dlc PRIVATE "${CMAKE_SOURCE_DIR}/include")
 target_sources(css_dlc PRIVATE
         src/main.cpp
         src/platform/platform.cpp
+        src/memory/c_pattern.cpp
 )
 
 install(TARGETS css_dlc
